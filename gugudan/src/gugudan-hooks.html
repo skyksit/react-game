@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const GuGuDan = () => {
+        const [first, setFirst] = React.useState(Math.ceil(Math.random() * 9));
+        const [second, setSecond] = React.useState(Math.ceil(Math.random() * 9));
+        const [value, setValue] = React.useState('');
+        const [result, setResult] = React.useState('');
+        const inputElement= React.useRef(null)
+
+        const onSubmit = (e) => {
+          e.preventDefault();
+          if (parseInt(value) === first * second) {
+            setResult(`정답: ${value}`);
+            setFirst(Math.ceil(Math.random() * 9));
+            setSecond(Math.ceil(Math.random() * 9));
+            setValue('');
+            inputElement.current.focus()
+          } else {
+            setResult('땡');
+            setValue('');
+            inputElement.current.focus()
+          }
+        }
+
+        const onChange = (e) => {
+          setValue(e.target.value);
+        }
+
+
+        return (
+          <React.Fragment>
+            <h1>{first} 곱하기 {second}는?</h1>
+            <form onSubmit={onSubmit}>
+              <input ref={inputElement} type="number" value={value} onChange={onChange}/>
+              <button type="submit">입력</button>
+            </form>
+            <div id="result">{result}</div>
+          </React.Fragment>
+        );
+      }
+
+    </script>
+    <script type="text/babel">
+      ReactDOM.render(
+        <GuGuDan />,
+        document.getElementById('root')
+      );
+    </script>
+  </body>
+</html>
